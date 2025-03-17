@@ -1,4 +1,4 @@
-const navEvents = () => {
+const formEvents = () => {
   document.querySelector('#main-container').addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -8,4 +8,4 @@ const navEvents = () => {
   });
 };
 
-export default navEvents;
+export default formEvents;
