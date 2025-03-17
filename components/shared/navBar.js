@@ -20,7 +20,7 @@ const navBar = () => {
           <input
               class="form-control mr-sm-2"
               id="search"
-              placeholder="Search Words"
+              placeholder="Search Orders"
               aria-label="Search"
             />
           <span class="navbar-text">            
