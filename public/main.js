@@ -1,13 +1,8 @@
 import ViewDirectorBasedOnUserAuthStatus from '../utils/viewDirector';
 import 'bootstrap'; // import bootstrap elements and js
 import '../styles/main.scss';
-import loginScreen from '../pages/login';
-import domBuilder from '../components/shared/domBuilder';
+import startApp from '../utils/startApp';
 
-const init = () => {
-  ViewDirectorBasedOnUserAuthStatus();
-  domBuilder();
-  loginScreen();
-};
+ViewDirectorBasedOnUserAuthStatus();
 
-init();
+startApp();
