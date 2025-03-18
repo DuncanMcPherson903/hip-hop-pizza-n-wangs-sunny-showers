@@ -1,11 +1,11 @@
-// import navBar from '../components/shared/navBar';
+import navBar from '../components/shared/navBar';
 import viewOrdersButton from '../components/buttons/viewOrders';
 import createOrdersButton from '../components/buttons/createOrders';
 import viewRevenueButton from '../components/buttons/viewRevenue';
 import displayWelcomeMessage from '../utils/greetUser';
 
 const homeScreen = () => {
-  // navBar();
+  navBar();
   const homePage = document.querySelector('#home-screen');
   homePage.innerHTML = `
   <div id="welcome-message"></div>
