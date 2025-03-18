@@ -1,5 +1,6 @@
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
 @import "~bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css2?family=Lacquer&display=swap');
 
 body {
   background-color: rgb(55, 122, 189);
@@ -7,6 +8,35 @@ body {
   text-align: center;
   margin-top: 100px;
 }
+
+
+
+.lacquer-regular {
+  font-family: "Lacquer", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.navbar {
+  background: rgb(246, 49, 49);
+  box-shadow: 2px 2px 2px black;
+  a {
+    color: white;
+  }
+  .navbar-brand {
+    font-family: "Lacquer", system-ui;
+    color: orange;
+    font-weight: 600;
+  }
+  #search {
+    width: 200px;
+    margin: 0 10px;
+  }
+  #google-auth {
+    background: orange;
+  }
+}
+  
 
 .flex-container {
   display: flex;
@@ -58,4 +88,8 @@ body {
 #google-auth.btn.btn-danger:hover {
   background-color: #111;
   border: 2px solid #f0f0f0;
+
+.text-purple {
+  color: #6f42c1; 
+
 }
