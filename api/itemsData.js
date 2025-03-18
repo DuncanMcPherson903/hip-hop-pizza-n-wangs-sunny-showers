@@ -2,8 +2,8 @@ import client from '../utils/client';
 
 const endpoint = client.databaseURL;
 
-const getItems = (uid) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/items.json?orderBy="uid"&equalTo="${uid}"`, {
+const getItems = () => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/items.json`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -20,7 +20,7 @@ const getItems = (uid) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const deleteItems = (firebaseKey) => new Promise((resolve, reject) => {
+const deleteItem = (firebaseKey) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/items/${firebaseKey}.json`, {
     method: 'DELETE',
     headers: {
@@ -44,7 +44,7 @@ const getSingleItem = (firebaseKey) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const createitem = (payload) => new Promise((resolve, reject) => {
+const createItem = (payload) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/items.json`, {
     method: 'POST',
     headers: {
@@ -57,7 +57,7 @@ const createitem = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const updateitem = (payload) => new Promise((resolve, reject) => {
+const updateItem = (payload) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/items/${payload.firebaseKey}.json`, {
     method: 'PATCH',
     headers: {
@@ -70,10 +70,29 @@ const updateitem = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const getItemsFromOrder = (payload) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/orders/${payload.firebaseKey}/item_id.json`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data) {
+        resolve(data);
+      } else {
+        resolve([]);
+      }
+    })
+    .catch(reject);
+});
+
 export {
   getItems,
-  deleteItems,
+  deleteItem,
   getSingleItem,
-  createitem,
-  updateitem
+  createItem,
+  updateItem,
+  getItemsFromOrder
 };

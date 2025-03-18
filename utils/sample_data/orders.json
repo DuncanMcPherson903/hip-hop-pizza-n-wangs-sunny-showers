@@ -10,7 +10,8 @@
     "phone": 6155551234,
     "email": "someone@something.com",
     "type": "cash",
-    "time": "Mon Mar 10 2025 20:51:15 GMT-0500 (Central Daylight Time)"
+    "time": "Mon Mar 10 2025 20:51:15 GMT-0500 (Central Daylight Time)",
+    "status": false
   },
   "-MiBv9_aOEJQWoobjz_U": {
     "firebaseKey": "-MiBv9_aOEJQWoobjz_U",
@@ -20,7 +21,8 @@
     "phone": 6151112222,
     "email": "what@huh.com",
     "type": "mobile",
-    "time": "Tue Mar 11 2025 21:41:26 GMT-0500 (Central Daylight Time)"
+    "time": "Tue Mar 11 2025 21:41:26 GMT-0500 (Central Daylight Time)",
+    "status": true
   },
   "-MiBt86VzkC-EGmJnxjm": {
     "firebaseKey": "-MiBt86VzkC-EGmJnxjm",
@@ -31,7 +33,8 @@
     "phone": 9315551234,
     "email": "12345@678910.com",
     "type": "credit",
-    "time": "Tue Mar 11 2025 09:23:00 GMT-0500 (Central Daylight Time)"
+    "time": "Tue Mar 11 2025 09:23:00 GMT-0500 (Central Daylight Time)",
+    "status": true
   },
   "-MiBtwf1BwN9pGavQeR3": {
     "firebaseKey": "-MiBtwf1BwN9pGavQeR3",
@@ -42,7 +45,8 @@
     "phone": 6159876543,
     "email": "someoneelse@something.com",
     "type": "credit",
-    "time": "Mon Mar 10 2025 12:45:20 GMT-0500 (Central Daylight Time)"
+    "time": "Mon Mar 10 2025 12:45:20 GMT-0500 (Central Daylight Time)",
+    "status": false
   },
   "-MiBuOfHv9NCKB_cneij": {
     "firebaseKey": "-MiBuOfHv9NCKB_cneij",
@@ -53,7 +57,8 @@
     "phone": 6153691245,
     "email": "jimmy@johns.com",
     "type": "mobile",
-    "time": "Tue Mar 11 2025 12:34:56 GMT-0500 (Central Daylight Time)"
+    "time": "Tue Mar 11 2025 12:34:56 GMT-0500 (Central Daylight Time)",
+    "status": true
   },
   "-MiBulenBnY8by9Xn7q1": {
     "firebaseKey": "-MiBulenBnY8by9Xn7q1",
@@ -65,6 +70,7 @@
     "phone": 6155551234,
     "email": "someone@something.com",
     "type": "cash",
-    "time": "Wed Mar 12 2025 01:23:45 GMT-0500 (Central Daylight Time)"
+    "time": "Wed Mar 12 2025 01:23:45 GMT-0500 (Central Daylight Time)",
+    "status": true
   }
 }
