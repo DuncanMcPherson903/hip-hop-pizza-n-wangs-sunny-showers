@@ -15,6 +15,7 @@ const displayOrders = (array) => {
             <p class="card-text mb-1">Phone: ${item.phone}</p>
             <p class="card-text mb-1">Email: ${item.email}</p>
             <p class="card-text mb-3">Type: ${item.type}</p>
+            <p class="card-text mb-3"> ${item.time}</p>
             <div>
               <button class="btn btn-link text-primary p-0 text-decoration-none" id="view-order-btn--${item.firebaseKey}">Details</button>
               <button class="btn btn-link text-purple p-0 text-decoration-none" id="edit-order-btn--${item.firebaseKey}">Edit</button>
