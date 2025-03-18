@@ -4,7 +4,7 @@ import renderToDOM from '../../utils/renderToDOM';
 const orderForm = (obj = {}) => {
   clearDom();
   const domString = `
-    <form id="${obj.firebaseKey ? `create-edit-order--${obj.firebaseKey}` : 'create-edit-order'}" class="mb-4">
+    <form id="${obj.firebaseKey ? `create-edit-order--${obj.firebaseKey}` : 'submit-order'}" class="mb-4">
       <div class="form-group">
         <label for="order-name" class="form-label">Order Name</label>
         <input 
@@ -42,6 +42,15 @@ const orderForm = (obj = {}) => {
           <option value="call-in" ${obj.orderType === 'call-in' ? 'selected' : ''}>Call In</option>
           <option value="walk-in" ${obj.orderType === 'walk-in' ? 'selected' : ''}>Walk In</option>
         </select>
+      </div>
+      <div class="form-group mt-3">
+        <label for="order-time" class="form-label">Order Time</label>
+        <input 
+          type="time" 
+          class="form-control" 
+          id="order-time" 
+          value="${obj.orderTime || ''}" 
+          required>
       </div>
       <button type="submit" class="btn btn-success mt-3">Create/Edit Order</button>
     </form>
