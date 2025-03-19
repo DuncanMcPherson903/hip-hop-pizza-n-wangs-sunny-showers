@@ -1,17 +1,20 @@
 import { getItems } from '../../api/itemsData';
 import showItems from '../../pages/items';
+import { getOrders } from '../../api/ordersData';
+import displayOrders from '../../pages/orders';
 
 const navEvents = () => {
   document.querySelector('#navigation').addEventListener('click', (e) => {
     if (e.target.id.includes('#')) {
       console.warn('yooo');
     }
-  });
-
-  document.querySelector('#navigation').addEventListener('click', (e) => {
     if (e.target.id.includes('all-items')) {
       getItems().then(showItems);
     }
+  });
+
+  document.querySelector('#all-orders').addEventListener('click', () => {
+    getOrders().then(displayOrders);
   });
 };
 
