@@ -3,30 +3,30 @@
     "name": "Three 6 Mozzarella",
     "firebaseKey": "-MiBsBKGWFEU-yluJkL-",
     "image": "https://pyramidpizza.ca/images/slide_3for1.png",
-    "price": "34.99"
+    "price": 34.99
   },
   "-MiBsknNSQ6aBG1-2lQS": {
     "name": "Bone-in Thugs-n-Harmony",
     "firebaseKey": "-MiBsknNSQ6aBG1-2lQS",
     "image": "https://olo-images-live.imgix.net/cd/cd6a3b2ae59d4cbdabcee5ccbc76874b.jpeg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=1200&h=800&fit=fill&fm=png32&bg=transparent&s=566a06b1f7f88235bc66bc09bae0f733",
-    "price": "14.99"
+    "price": 14.99
   },
   "-MiBuCve4-r_H-RLUOh2": {
     "name": "Boneless Thugs-n-Harmony",
     "firebaseKey": "-MiBuCve4-r_H-RLUOh2",
     "image": "https://easychickenrecipes.com/wp-content/uploads/2023/09/Boneless-Buffalo-Chicken-Wings-10-edited.jpg",
-    "price": "12.99"
+    "price": 12.99
   },
   "-MiBuU13EaKmGOMjJF-X": {
     "name": "Wu-Tang Clams",
     "firebaseKey": "-MiBuU13EaKmGOMjJF-X",
     "image": "https://www.seriouseats.com/thmb/iIX8YrLm9K-BdSjrEUgHys6OOBM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__serious_eats__seriouseats.com__recipes__images__2013__06__20130527-clam-pizza-1-359b5cdcc9a5410681210631773a9603.jpg",
-    "price": "24.99"
+    "price": 24.99
   },
   "-MiBuqoYjFwbXyA8oiiw": {
     "name": "A Pie Called Quest",
     "firebaseKey": "-MiBuqoYjFwbXyA8oiiw",
     "image": "https://i.redd.it/ltar29neefi21.jpg",
-    "price": "21.99"
+    "price": 21.99
   }
 }

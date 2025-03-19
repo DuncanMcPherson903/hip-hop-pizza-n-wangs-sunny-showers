@@ -1,13 +1,21 @@
-import { getOrders } from '../../api/ordersData';
-import displayOrders from '../../pages/orders';
+import { getSingleItem } from '../../api/itemsData';
+import addItemForm from '../forms/addItemForm';
 
 const domEvents = () => {
   document.querySelector('#main-container').addEventListener('click', (e) => {
     if (e.target.id.includes('#')) {
       console.warn('yooo');
     }
-    if (e.target.id.includes('view-orders')) {
-      getOrders().then(displayOrders);
+
+    // Opens Form for editing items
+    if (e.target.id.includes('edit-item-btn')) {
+      const [, firebaseKey] = e.target.id.split('--');
+      getSingleItem(firebaseKey).then((itemObj) => addItemForm(itemObj));
+    }
+
+    // Opens Form for adding items
+    if (e.target.id.includes('add-item-btn')) {
+      addItemForm();
     }
   });
 };

@@ -1,3 +1,5 @@
+import { getItems } from '../../api/itemsData';
+import showItems from '../../pages/items';
 import { getOrders } from '../../api/ordersData';
 import displayOrders from '../../pages/orders';
 
@@ -6,7 +8,11 @@ const navEvents = () => {
     if (e.target.id.includes('#')) {
       console.warn('yooo');
     }
+    if (e.target.id.includes('all-items')) {
+      getItems().then(showItems);
+    }
   });
+
   document.querySelector('#all-orders').addEventListener('click', () => {
     getOrders().then(displayOrders);
   });

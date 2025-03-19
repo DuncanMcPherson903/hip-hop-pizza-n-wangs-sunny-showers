@@ -9,8 +9,8 @@ import formEvents from '../components/events/formEventListeners';
 const startApp = (user) => {
   domBuilder(user);
   navBar(user);
-  logoutButton();
   homeScreen(user);
+  logoutButton();
   navEvents(user);
   domEvents(user);
   formEvents(user);
