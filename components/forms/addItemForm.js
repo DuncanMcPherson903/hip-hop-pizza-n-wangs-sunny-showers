@@ -4,7 +4,7 @@ import renderToDOM from '../../utils/renderToDOM';
 const addItemForm = (obj = {}) => {
   clearDom();
   const domString = `
-    <form id="${obj.firebaseKey ? `add-item--${obj.firebaseKey}` : 'add-item'}" class="mb-4">
+    <form id="${obj.firebaseKey ? `update-item--${obj.firebaseKey}` : 'submit-item'}" class="mb-4">
       <div class="form-group">
         <label for="item-name" class="form-label">Item Name</label>
         <input 
@@ -23,6 +23,16 @@ const addItemForm = (obj = {}) => {
           id="item-price" 
           placeholder="Enter item price" 
           value="${obj.price || ''}" 
+          required>
+      </div>
+      <div class="form-group mt-3">
+        <label for="item-image" class="form-label">Item Image URL</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          id="item-image" 
+          placeholder="Enter item image URL" 
+          value="${obj.image || ''}" 
           required>
       </div>
       <button type="submit" class="btn btn-success mt-3">Add/Edit Item</button>

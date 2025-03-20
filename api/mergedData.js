@@ -1,4 +1,5 @@
 import { updateOrder, getSingleOrder } from './ordersData';
+import { getItemsFromOrder } from './itemsData';
 
 // Function to add an item to an existing order
 const addItemToOrder = (orderId, itemId, quantity) => new Promise((resolve, reject) => {
@@ -19,4 +20,14 @@ const addItemToOrder = (orderId, itemId, quantity) => new Promise((resolve, reje
     .catch(reject); // Reject if fetching the order fails
 });
 
-export default addItemToOrder;
+const getOrderDetails = (firebaseKey) => new Promise((resolve, reject) => {
+  getSingleOrder(firebaseKey).then((orderObject) => {
+    getItemsFromOrder(orderObject)
+      .then((itemArray) => resolve({ ...orderObject, itemArray }));
+  }).catch(reject);
+});
+
+export {
+  getOrderDetails,
+  addItemToOrder
+};
