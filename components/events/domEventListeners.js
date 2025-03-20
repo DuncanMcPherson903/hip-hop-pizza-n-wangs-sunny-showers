@@ -1,4 +1,4 @@
-import { getOrders, getSingleOrder, deleteOrder } from '../../api/ordersData';
+import { getOrders, deleteOrder, getSingleOrder } from '../../api/ordersData';
 import displayOrders from '../../pages/orders';
 import viewOrderDetails from '../../pages/viewOrderDetails';
 import orderForm from '../forms/addOrderForm';
@@ -7,15 +7,13 @@ import addItemForm from '../forms/addItemForm';
 
 const domEvents = () => {
   document.querySelector('#main-container').addEventListener('click', (e) => {
+    if (e.target.id.includes('view-orders')) {
+      getOrders().then(displayOrders);
+      
     // View Order Details
     if (e.target.id.includes('view-order-btn')) {
       const [, firebaseKey] = e.target.id.split('--');
       getSingleOrder(firebaseKey).then(viewOrderDetails);
-    }
-
-    // View Orders
-    if (e.target.id.includes('view-orders')) {
-      getOrders().then(displayOrders);
     }
 
     // Edit Item
