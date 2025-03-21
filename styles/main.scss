@@ -34,15 +34,74 @@ body {
   }
   #google-auth {
     background: orange;
+    color: white;
   }
 }
 
-#customer-order-details {
+#order-details {
+  margin-top: -50px;
+  margin-bottom: 30px;
+  #customer-order-details {
   background: orange;
-  padding: 10px;
-  width: 100%;
+  padding: 20px 40px;
+  width: 100vw;
+  border-radius: 10px;
+  border: 5px solid rgb(246, 49, 49);
+  box-shadow: 0px 3px 3px 3px black;
+  h3 {
+    color: white;
+    text-shadow: 1px 1px 2px black;
+  }
+  p {
+    font-size: 18px;
+    text-shadow: 1px 1px 2px black;
+  }
+  a {
+    color: white;
+  }
+  h5 {
+    color: white;
+    text-shadow: 1px 1px 2px black;
+  }
+  table {
+    border: 5px solid rgb(55, 122, 189);
+  }
+  .checkout-btn {
+    margin-top: 10px;
+    color: white;
+    font-weight: 600;
+    background: rgb(55, 122, 189);
+  }
+  .checkout-btn:hover {
+    background: rgb(44, 95, 146);
+  }
+  }
 }
-  
+
+#cards {
+  width: 100vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  .card {
+    box-shadow: 0px 2px 2px 2px black;
+    img {
+      height: 14rem;
+    }
+    p {
+      font-weight: 800px;
+      margin-top: 15px;
+    }
+    .add-item-btn {
+      background: rgb(55, 122, 189);
+      color: white;
+      font-weight: 600;
+    }
+    .add-item-btn:hover {
+      background: rgb(44, 95, 146);
+    }
+  } 
+}
 
 .flex-container {
   display: flex;

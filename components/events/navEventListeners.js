@@ -7,14 +7,12 @@ import clearDom from '../../utils/clearDom';
 
 const navEvents = () => {
   document.querySelector('#navigation').addEventListener('click', (e) => {
-    if (e.target.id.includes('#')) {
-      console.warn('yooo');
-    }
+    // Get all Items from nav
     if (e.target.id.includes('all-items')) {
       getItems().then(showItems);
     }
   });
-
+  // Get all orders from nav
   document.querySelector('#all-orders').addEventListener('click', () => {
     getOrders().then(displayOrders);
   });
