@@ -1,23 +1,12 @@
-<<<<<<< HEAD
 import { getOrders, getSingleOrder, deleteOrder } from '../../api/ordersData';
 import displayOrders from '../../pages/orders';
 import { viewOrderDetails, viewAddItems } from '../../pages/viewOrderDetails';
-=======
-import { getOrders, deleteOrder, getSingleOrder } from '../../api/ordersData';
-import displayOrders from '../../pages/orders';
-import viewOrderDetails from '../../pages/viewOrderDetails';
->>>>>>> b8da9a95d7ab3c9929bfb66aed84db6f23157b23
 import orderForm from '../forms/addOrderForm';
 import { getSingleItem, getItems } from '../../api/itemsData';
 import addItemForm from '../forms/addItemForm';
-<<<<<<< HEAD
 import { addItemsToOrder } from '../../api/mergedData';
 
 let currentOrderId = null;
-
-const domEvents = () => {
-  document.querySelector('#main-container').addEventListener('click', (e) => {
-=======
 
 const domEvents = () => {
   document.querySelector('#main-container').addEventListener('click', (e) => {
@@ -25,7 +14,6 @@ const domEvents = () => {
       getOrders().then(displayOrders);
     }
 
->>>>>>> b8da9a95d7ab3c9929bfb66aed84db6f23157b23
     // View Order Details
     if (e.target.id.includes('view-order-btn')) {
       const [, firebaseKey] = e.target.id.split('--');
@@ -43,7 +31,6 @@ const domEvents = () => {
         });
     }
 
-<<<<<<< HEAD
     // Add Item to Order on View Order Details Page
     if (e.target.id.includes('add-item-to-order-btn')) {
       const [, firebaseKey] = e.target.id.split('--');
@@ -72,8 +59,6 @@ const domEvents = () => {
       getOrders().then(displayOrders);
     }
 
-=======
->>>>>>> b8da9a95d7ab3c9929bfb66aed84db6f23157b23
     // Edit Item
     if (e.target.id.includes('edit-item-btn')) {
       const [, firebaseKey] = e.target.id.split('--');

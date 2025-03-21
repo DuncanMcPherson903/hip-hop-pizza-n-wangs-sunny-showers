@@ -74,7 +74,7 @@ const viewAddItems = (array) => {
   let domString = '';
   array.forEach((item) => {
     domString += `
-      <div class="card border-dark" style="width: 18rem; margin: 10px">
+      <div class="add-item-card card" style="width: 18rem; margin: 10px">
         <div class="card-body">
           <h5 class="card-title">${item.name}</h5>
           <img src="${item.image}" style="width: 250px;">
