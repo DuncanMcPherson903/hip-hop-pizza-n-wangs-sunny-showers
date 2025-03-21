@@ -1,16 +1,53 @@
 import { getOrders, getSingleOrder, deleteOrder } from '../../api/ordersData';
 import displayOrders from '../../pages/orders';
-import viewOrderDetails from '../../pages/viewOrderDetails';
+import { viewOrderDetails, viewAddItems } from '../../pages/viewOrderDetails';
 import orderForm from '../forms/addOrderForm';
-import { getSingleItem } from '../../api/itemsData';
+import { getSingleItem, getItems } from '../../api/itemsData';
 import addItemForm from '../forms/addItemForm';
+import { addItemsToOrder } from '../../api/mergedData';
+
+let currentOrderId = null;
 
 const domEvents = () => {
   document.querySelector('#main-container').addEventListener('click', (e) => {
     // View Order Details
     if (e.target.id.includes('view-order-btn')) {
       const [, firebaseKey] = e.target.id.split('--');
-      getSingleOrder(firebaseKey).then(viewOrderDetails);
+      currentOrderId = firebaseKey;
+      getSingleOrder(firebaseKey)
+        .then((orderObj) => {
+          viewOrderDetails(orderObj); // Displays the current order details
+          return getItems(); // Fetches all available items for adding to the order
+        })
+        .then((items) => {
+          viewAddItems(items); // Displays the available items
+        })
+        .catch((error) => {
+          console.error('Error fetching order details or items:', error);
+        });
+    }
+
+    // Add Item to Order on View Order Details Page
+    if (e.target.id.includes('add-item-to-order-btn')) {
+      const [, firebaseKey] = e.target.id.split('--');
+      // Prompt the user for quantity
+      // eslint-disable-next-line no-alert
+      const quantity = parseInt(window.prompt('Enter quantity:', '1'), 10);
+      if (quantity > 0) {
+        addItemsToOrder(currentOrderId, firebaseKey, quantity)
+          .then(() => {
+            console.warn('Item added to order!');
+            return getSingleOrder(currentOrderId); // Fetch the updated order details
+          })
+          .then((updatedOrderObj) => {
+            viewOrderDetails(updatedOrderObj); // Display the updated order details
+            return getItems(); // Fetch all available items for displaying
+          })
+          .then(viewAddItems) // Display the available items again
+          .catch((error) => {
+            console.error('Error adding item to order:', error);
+          });
+      }
     }
 
     // View Orders
