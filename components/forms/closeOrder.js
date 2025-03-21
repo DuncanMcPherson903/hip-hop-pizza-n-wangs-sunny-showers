@@ -4,7 +4,7 @@ import renderToDOM from '../../utils/renderToDOM';
 const closeOrderForm = (obj = {}) => {
   clearDom();
   const domString = `
-    <form id="${obj.firebaseKey ? `close-order--${obj.firebaseKey}` : 'close-order'}" class="mb-4">
+    <form id="close-order--${obj.firebaseKey}" class="mb-4">
       <div class="form-group">
         <label for="payment-type" class="form-label">Payment Method</label>
         <select id="payment-type" class="form-select" name="payment-type" required>
@@ -17,7 +17,8 @@ const closeOrderForm = (obj = {}) => {
       <div class="form-group mt-3">
         <label for="tip" class="form-label">Tip Amount</label>
         <input 
-          type="number" 
+          type="number"
+          step="0.01" 
           class="form-control" 
           id="tip" 
           aria-describedby="tipHelp" 

@@ -1,21 +1,17 @@
 import {
-  getOrders, createOrder, updateOrder, getSingleOrder
-} from '../../api/ordersData';
-import {
-<<<<<<< HEAD
-  createItem,
-  deleteItem,
-  getItems,
-  updateItem
-}
-  from '../../api/itemsData';
-=======
-  createItem, deleteItem, getItems, updateItem
+  createItem, getItems, updateItem
 } from '../../api/itemsData';
->>>>>>> b8da9a95d7ab3c9929bfb66aed84db6f23157b23
 import showItems from '../../pages/items';
+import {
+  getOrders,
+  createOrder,
+  updateOrder,
+  getSingleOrder
+} from '../../api/ordersData';
 import displayOrders from '../../pages/orders';
 import orderForm from '../forms/addOrderForm';
+import { getRevenue, updateRevenue } from '../../api/revenueData';
+import getTotalPriceFromOrder from '../../utils/getTotalPriceFromOrder';
 
 const getFormData = (firebaseKey = null) => ({
   firebaseKey,
@@ -67,6 +63,43 @@ const formEvents = () => {
         .catch((error) => console.error('Error updating order:', error));
     }
 
+    // Form event for closing an order
+    if (e.target.id.includes('close-order')) {
+      const [, firebaseKey] = e.target.id.split('--');
+      getSingleOrder(firebaseKey).then((orderObj) => {
+        const payload = {
+          name: orderObj.name,
+          phone: orderObj.phone,
+          email: orderObj.email,
+          time: orderObj.time,
+          type: orderObj.type,
+          status: false,
+          firebaseKey,
+        };
+        updateOrder(payload).then(() => {
+          getOrders().then(displayOrders);
+        });
+      });
+      // Update Revenue with order info
+      getSingleOrder(firebaseKey).then((orderObj) => {
+        getRevenue().then((revObj) => {
+          const payload = {
+            call_ins: revObj.call_ins + (orderObj.type === 'call-in' ? 1 : 0),
+            walk_ins: revObj.walk_ins + (orderObj.type === 'walk-in' ? 1 : 0),
+            cash: revObj.cash + (document.querySelector('#payment-type').value === 'cash' ? 1 : 0),
+            credit: revObj.credit + (document.querySelector('#payment-type').value === 'credit' ? 1 : 0),
+            mobile: revObj.mobile + (document.querySelector('#payment-type').value === 'mobile' ? 1 : 0),
+            initial_date: revObj.initial_date,
+            latest_date: orderObj.time,
+            tips: revObj.tips + (document.querySelector('#tip').value ? parseFloat(document.querySelector('#tip').value) : 0),
+            total: revObj.total + getTotalPriceFromOrder(orderObj),
+          };
+          updateRevenue(payload);
+        });
+      });
+    }
+
+    // Form event for submitting an item
     if (e.target.id.includes('submit-item')) {
       const payload = {
         image: document.querySelector('#item-image').value,
@@ -81,6 +114,7 @@ const formEvents = () => {
       });
     }
 
+    // Form event for updating an item
     if (e.target.id.includes('update-item')) {
       const [, firebaseKey] = e.target.id.split('--');
       const payload = {
@@ -92,18 +126,6 @@ const formEvents = () => {
       updateItem(payload).then(() => {
         getItems().then(showItems);
       });
-    }
-  });
-
-  document.querySelector('#main-container').addEventListener('click', (e) => {
-    if (e.target.id.includes('delete-item')) {
-      // eslint-disable-next-line no-alert
-      if (window.confirm('Want to delete?')) {
-        const [, firebaseKey] = e.target.id.split('--');
-        deleteItem(firebaseKey).then(() => {
-          getItems().then(showItems);
-        });
-      }
     }
   });
 };
