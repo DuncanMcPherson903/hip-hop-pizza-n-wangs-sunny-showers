@@ -60,6 +60,13 @@ const viewOrderDetails = (obj) => {
     })
     .catch((error) => {
       console.error('Error fetching items:', error);
+
+      const errorDomString = `
+        <div class="alert alert-danger" role="alert">
+          Failed to load order details. Please try again later.
+        </div>
+      `;
+      renderToDOM('#cards', errorDomString);
     });
 };
 

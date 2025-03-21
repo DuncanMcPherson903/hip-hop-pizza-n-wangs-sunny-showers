@@ -2,12 +2,17 @@ import {
   getOrders, createOrder, updateOrder, getSingleOrder
 } from '../../api/ordersData';
 import {
+<<<<<<< HEAD
   createItem,
   deleteItem,
   getItems,
   updateItem
 }
   from '../../api/itemsData';
+=======
+  createItem, deleteItem, getItems, updateItem
+} from '../../api/itemsData';
+>>>>>>> b8da9a95d7ab3c9929bfb66aed84db6f23157b23
 import showItems from '../../pages/items';
 import displayOrders from '../../pages/orders';
 import orderForm from '../forms/addOrderForm';
@@ -30,11 +35,17 @@ const formEvents = () => {
 
     if (e.target.id.includes('edit-order-btn')) {
       const [, firebaseKey] = e.target.id.split('--');
-      getSingleOrder(firebaseKey).then((obj) => {
-        orderForm(obj);
-      }).catch((error) => {
-        console.error('Error fetching order for editing:', error);
-      });
+      getSingleOrder(firebaseKey)
+        .then((obj) => {
+          if (!obj) {
+            console.error(`Error: No order found for firebaseKey ${firebaseKey}`);
+          } else {
+            orderForm(obj); // Pass valid object
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching single order:', error);
+        });
     }
   });
 
