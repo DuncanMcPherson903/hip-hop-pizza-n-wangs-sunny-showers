@@ -26,6 +26,11 @@ const deleteOrder = (firebaseKey) => new Promise((resolve, reject) => {
 });
 
 const getSingleOrder = (firebaseKey) => new Promise((resolve, reject) => {
+  if (!firebaseKey) {
+    reject(new Error('Invalid firebaseKey: firebaseKey is required.'));
+    return;
+  }
+
   fetch(`${endpoint}/orders/${firebaseKey}.json`, {
     method: 'GET',
     headers: {
@@ -33,7 +38,10 @@ const getSingleOrder = (firebaseKey) => new Promise((resolve, reject) => {
     },
   })
     .then((response) => response.json())
-    .then((data) => resolve(data))
+    .then((data) => {
+      if (data) resolve(data);
+      else reject(new Error(`Order not found for firebaseKey: ${firebaseKey}`));
+    })
     .catch(reject);
 });
 
@@ -41,11 +49,27 @@ const createOrder = (payload) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/orders.json`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(payload)
-  }).then((response) => response.json())
-    .then((data) => resolve(data))
+    body: JSON.stringify(payload),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      // Add the generated firebaseKey to the order
+      const firebaseKey = data.name; // 'name' contains the generated key
+      const patchPayload = { ...payload, firebaseKey };
+
+      // Update the order with its firebaseKey
+      fetch(`${endpoint}/orders/${firebaseKey}.json`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(patchPayload),
+      })
+        .then(() => resolve(patchPayload)) // Resolve with the updated payload
+        .catch(reject);
+    })
     .catch(reject);
 });
 

@@ -1,7 +1,5 @@
 import {
-  createItem,
-  getItems,
-  updateItem
+  createItem, getItems, updateItem
 } from '../../api/itemsData';
 import showItems from '../../pages/items';
 import {
@@ -15,34 +13,54 @@ import orderForm from '../forms/addOrderForm';
 import { getRevenue, updateRevenue } from '../../api/revenueData';
 import getTotalPriceFromOrder from '../../utils/getTotalPriceFromOrder';
 
+const getFormData = (firebaseKey = null) => ({
+  firebaseKey,
+  name: document.querySelector('#order-name').value,
+  phone: document.querySelector('#customer-phone').value,
+  email: document.querySelector('#customer-email').value,
+  time: document.querySelector('#order-time').value,
+  type: document.querySelector('#order-type').value,
+  status: true,
+});
+
 const formEvents = () => {
   document.querySelector('#main-container').addEventListener('click', (e) => {
     if (e.target.id === 'create-orders') {
       orderForm();
     }
+
+    if (e.target.id.includes('edit-order-btn')) {
+      const [, firebaseKey] = e.target.id.split('--');
+      getSingleOrder(firebaseKey)
+        .then((obj) => {
+          if (!obj) {
+            console.error(`Error: No order found for firebaseKey ${firebaseKey}`);
+          } else {
+            orderForm(obj); // Pass valid object
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching single order:', error);
+        });
+    }
   });
+
   document.querySelector('#main-container').addEventListener('submit', (e) => {
     e.preventDefault();
 
     if (e.target.id.includes('submit-order')) {
-      const payload = {
-        name: document.querySelector('#order-name').value,
-        phone: document.querySelector('#customer-phone').value,
-        email: document.querySelector('#customer-email').value,
-        time: document.querySelector('#order-time').value,
-        type: document.querySelector('#order-type').value,
-        status: true,
-      };
+      const payload = getFormData();
+      createOrder(payload)
+        .then(() => getOrders().then(displayOrders))
+        .catch((error) => console.error('Error creating order:', error));
+    }
 
-      createOrder(payload).then(({ name }) => {
-        const patchPayload = { firebaseKey: name };
-
-        updateOrder(patchPayload).then(() => {
-          getOrders().then(displayOrders);
-        });
-      }).catch((error) => {
-        console.error('Error creating order:', error);
-      });
+    if (e.target.id.includes('edit-order')) {
+      const [, firebaseKey] = e.target.id.split('--');
+      const payload = getFormData(firebaseKey);
+      updateOrder(payload)
+        .then(() => getOrders().then(displayOrders))
+        .catch((error) => console.error('Error updating order:', error));
     }
 
     // Form event for closing an order
