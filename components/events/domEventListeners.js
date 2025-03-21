@@ -9,7 +9,8 @@ const domEvents = () => {
   document.querySelector('#main-container').addEventListener('click', (e) => {
     if (e.target.id.includes('view-orders')) {
       getOrders().then(displayOrders);
-      
+    }
+
     // View Order Details
     if (e.target.id.includes('view-order-btn')) {
       const [, firebaseKey] = e.target.id.split('--');

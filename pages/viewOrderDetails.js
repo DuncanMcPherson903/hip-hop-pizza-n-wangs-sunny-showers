@@ -1,33 +1,33 @@
 import clearDom from '../utils/clearDom';
 import renderToDOM from '../utils/renderToDOM';
 import { getSingleItem } from '../api/itemsData';
-// import addItemToOrder from '../api/mergedData';
 
-const viewOrderDetails = (obj) => {
+const viewOrderDetails = (orderObj) => {
   clearDom();
 
-  // Fetch all the items using item_id keys
-  const itemPromises = obj.item_id.map((itemKey) => getSingleItem(itemKey));
+  // Ensure itemId exists and is an array
+  const itemId = Array.isArray(orderObj.itemId) ? orderObj.itemId : [];
+  const itemPromises = itemId.map((itemKey) => getSingleItem(itemKey));
 
   Promise.all(itemPromises)
     .then((itemsInOrder) => {
-      // Create a list of item names and other details
+      // Handle the case when itemsInOrder is empty
       const itemList = itemsInOrder.map((item) => `
-      <li>
-      ${item.name} - $${item.price}
-      <span> (Quantity: ${obj.item_id.filter((id) => id === item.firebaseKey).length})</span>
-      </li>`).join('');
+        <li>
+        ${item.name} - $${item.price}
+        <span> (Quantity: ${itemId.filter((id) => id === item.firebaseKey).length})</span>
+        </li>`).join('');
 
       const domString = `
-        <div id="customer-order-details" class="container text-center mt-5">
+        <div id="customerOrderDetails" class="container text-center mt-5 card">
           <div class="d-flex flex-column align-items-center">
-            <h3>Name: ${obj.name}</h3>
-            <p>Email: <a href="mailto:${obj.email}">${obj.email}</a></p>
-            <p>Phone: ${obj.phone}</p>
+            <h3>Name: ${orderObj.name}</h3>
+            <p class='text-info'>Email: <a class='text-info' href="mailto:${orderObj.email}">${orderObj.email}</a></p>
+            <p>Phone: ${orderObj.phone}</p>
             <hr>
             <h6 class="text-center">Items:</h6>
             <ul>
-              ${itemList}
+              ${itemList || '<li>No items found</li>'}
             </ul>
           </div>
         </div>
@@ -38,6 +38,13 @@ const viewOrderDetails = (obj) => {
     })
     .catch((error) => {
       console.error('Error fetching items:', error);
+
+      const errorDomString = `
+        <div class="alert alert-danger" role="alert">
+          Failed to load order details. Please try again later.
+        </div>
+      `;
+      renderToDOM('#cards', errorDomString);
     });
 };
 
