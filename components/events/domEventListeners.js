@@ -6,9 +6,9 @@ import { getOrders, getSingleOrder, deleteOrder } from '../../api/ordersData';
 import displayOrders from '../../pages/orders';
 import { viewOrderDetails, viewAddItems } from '../../pages/viewOrderDetails';
 import orderForm from '../forms/addOrderForm';
-import { addItemsToOrder } from '../../api/mergedData';
 import displayRevenue from '../../pages/revenue';
 import { getRevenue } from '../../api/revenueData';
+import { addItemsToOrder, removeItemFromOrder } from '../../api/mergedData';
 
 let currentOrderId = null;
 
@@ -55,6 +55,21 @@ const domEvents = (user) => {
             console.error('Error adding item to order:', error);
           });
       }
+    }
+
+    // Remove Item from Order on order details page
+    if (e.target.id.includes('remove-item-from-order-btn')) {
+      const orderDetailsContainer = document.querySelector('#customer-order-details');
+      const orderFirebaseKey = orderDetailsContainer.getAttribute('data-order-id');
+      const [, itemFirebaseKey] = e.target.id.split('--');
+      removeItemFromOrder(orderFirebaseKey, itemFirebaseKey)
+        .then(() => getSingleOrder(orderFirebaseKey))
+        .then((updatedOrderObj) => {
+          viewOrderDetails(updatedOrderObj);
+          return getItems();
+        })
+        .then(viewAddItems)
+        .catch(console.error);
     }
 
     // View Orders
