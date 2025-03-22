@@ -6,9 +6,12 @@ import { getOrders, getSingleOrder, deleteOrder } from '../../api/ordersData';
 import displayOrders from '../../pages/orders';
 import { viewOrderDetails, viewAddItems } from '../../pages/viewOrderDetails';
 import orderForm from '../forms/addOrderForm';
+import { addItemsToOrder } from '../../api/mergedData';
+import { signOut } from '../../utils/auth';
 import displayRevenue from '../../pages/revenue';
 import { getRevenue } from '../../api/revenueData';
 import { addItemsToOrder, removeItemFromOrder } from '../../api/mergedData';
+
 
 let currentOrderId = null;
 
@@ -17,6 +20,13 @@ const domEvents = (user) => {
     if (e.target.id.includes('view-orders')) {
       getOrders(user.uid).then(displayOrders);
     }
+    document.body.addEventListener('click', (event) => {
+      if (event.target.id === 'logout-button') {
+        signOut();
+        document.body.classList.add('bg-image');
+      }
+    });
+
     // View Order Details
     if (e.target.id.includes('view-order-btn')) {
       const [, firebaseKey] = e.target.id.split('--');

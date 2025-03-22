@@ -11,7 +11,6 @@ const domBuilder = () => {
     <div id="revenue-screen"></div>
     <div id="order-details"></div>
     <div id="cards"></div>
-    <div id="login-screen"></div>
   </div>`;
 
   renderToDOM('#app', domString);

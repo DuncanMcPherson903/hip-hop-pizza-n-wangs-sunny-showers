@@ -7,9 +7,18 @@ body {
   color: #edede9;
   text-align: center;
   margin-top: 100px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-
-
+.bg-image {
+  background-image: url('https://c1.wallpaperflare.com/preview/1002/612/49/graffiti-hiphop-hip-hop-hauswand.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
 .lacquer-regular {
   font-family: "Lacquer", system-ui;

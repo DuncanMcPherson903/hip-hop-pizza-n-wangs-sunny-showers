@@ -7,6 +7,7 @@ import domEvents from '../components/events/domEventListeners';
 import formEvents from '../components/events/formEventListeners';
 
 const startApp = (user) => {
+  document.body.style.backgroundImage = 'none';
   domBuilder(user);
   navBar(user);
   homeScreen(user);
@@ -14,6 +15,7 @@ const startApp = (user) => {
   navEvents(user);
   domEvents(user);
   formEvents(user);
+  document.getElementById('login').remove();
 };
 
 export default startApp;
