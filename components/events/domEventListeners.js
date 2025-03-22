@@ -1,9 +1,11 @@
+import { getSingleItem, getItems, deleteItem } from '../../api/itemsData';
+import addItemForm from '../forms/addItemForm';
+import closeOrderForm from '../forms/closeOrder';
+import showItems from '../../pages/items';
 import { getOrders, getSingleOrder, deleteOrder } from '../../api/ordersData';
 import displayOrders from '../../pages/orders';
 import { viewOrderDetails, viewAddItems } from '../../pages/viewOrderDetails';
 import orderForm from '../forms/addOrderForm';
-import { getSingleItem, getItems } from '../../api/itemsData';
-import addItemForm from '../forms/addItemForm';
 import { addItemsToOrder, removeItemFromOrder } from '../../api/mergedData';
 
 let currentOrderId = null;
@@ -13,7 +15,6 @@ const domEvents = () => {
     if (e.target.id.includes('view-orders')) {
       getOrders().then(displayOrders);
     }
-
     // View Order Details
     if (e.target.id.includes('view-order-btn')) {
       const [, firebaseKey] = e.target.id.split('--');
@@ -85,6 +86,21 @@ const domEvents = () => {
       addItemForm();
     }
 
+    // Opens Form for closing an order
+    if (e.target.id.includes('close-order-btn')) {
+      const [, firebaseKey] = e.target.id.split('--');
+      getSingleOrder(firebaseKey).then((orderObj) => closeOrderForm(orderObj));
+    }
+
+    if (e.target.id.includes('delete-item')) {
+      // eslint-disable-next-line no-alert
+      if (window.confirm('Want to delete?')) {
+        const [, firebaseKey] = e.target.id.split('--');
+        deleteItem(firebaseKey).then(() => {
+          getItems().then(showItems);
+        });
+      }
+    }
     // Delete Order
     if (e.target.id.includes('delete-order-btn')) {
       const [, firebaseKey] = e.target.id.split('--');
