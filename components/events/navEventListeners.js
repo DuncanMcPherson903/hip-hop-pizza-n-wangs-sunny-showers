@@ -4,6 +4,7 @@ import { getOrders } from '../../api/ordersData';
 import displayOrders from '../../pages/orders';
 import renderToDOM from '../../utils/renderToDOM';
 import clearDom from '../../utils/clearDom';
+import { signOut } from '../../utils/auth';
 
 const navEvents = () => {
   document.querySelector('#navigation').addEventListener('click', (e) => {
@@ -15,6 +16,10 @@ const navEvents = () => {
   // Get all orders from nav
   document.querySelector('#all-orders').addEventListener('click', () => {
     getOrders().then(displayOrders);
+  });
+
+  document.querySelector('#google-auth').addEventListener('click', () => {
+    signOut();
   });
 
   document.querySelector('#search').addEventListener('input', (e) => {

@@ -7,6 +7,7 @@ import displayOrders from '../../pages/orders';
 import { viewOrderDetails, viewAddItems } from '../../pages/viewOrderDetails';
 import orderForm from '../forms/addOrderForm';
 import { addItemsToOrder } from '../../api/mergedData';
+import { signOut } from '../../utils/auth';
 
 let currentOrderId = null;
 
@@ -15,6 +16,13 @@ const domEvents = () => {
     if (e.target.id.includes('view-orders')) {
       getOrders().then(displayOrders);
     }
+    document.body.addEventListener('click', (event) => {
+      if (event.target.id === 'logout-button') {
+        signOut();
+        document.body.classList.add('bg-image');
+      }
+    });
+
     // View Order Details
     if (e.target.id.includes('view-order-btn')) {
       const [, firebaseKey] = e.target.id.split('--');
