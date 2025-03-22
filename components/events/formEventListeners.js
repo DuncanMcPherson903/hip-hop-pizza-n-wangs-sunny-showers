@@ -1,6 +1,10 @@
 import {
-  createItem, getItems, updateItem
-} from '../../api/itemsData';
+  createItem,
+  deleteItem,
+  getItems,
+  updateItem
+}
+  from '../../api/itemsData';
 import showItems from '../../pages/items';
 import {
   getOrders,
