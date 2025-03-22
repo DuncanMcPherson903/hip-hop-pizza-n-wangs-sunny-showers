@@ -1,6 +1,7 @@
 import clearDom from '../utils/clearDom';
 import renderToDOM from '../utils/renderToDOM';
 import { getSingleItem } from '../api/itemsData';
+import { updateOrder } from '../api/ordersData';
 
 const viewOrderDetails = (obj) => {
   clearDom();
@@ -30,6 +31,40 @@ const viewOrderDetails = (obj) => {
       `)
         .join('');
 
+      // Conditionally render the payment details section based on the order status
+      let paymentDetailsSection = '';
+      if (obj.status === true) {
+        paymentDetailsSection = `
+          <h5>Total: $${totalBeforeTax.toFixed(2)}</h5>
+
+          <!-- Tip Input -->
+          <div id="tip-section">
+            <label for="tip-input">Tip: </label>
+            <input type="number" id="tip-input" min="0" placeholder="Enter tip amount" />
+          </div>
+
+          <!-- Payment Type Dropdown -->
+          <div id="payment-type-section">
+            <label for="payment-type">Payment Type: </label>
+            <select id="payment-type">
+              <option value="cash">Cash</option>
+              <option value="mobile">Mobile</option>
+              <option value="card">Card</option>
+            </select>
+          </div>
+
+          <!-- Total -->
+          <div id="total-section">
+            <p>Total: $<span id="order-total">${totalBeforeTax.toFixed(2)}</span></p>
+          </div>
+          <button class="btn checkout-btn" id="checkout-btn--${obj.firebaseKey}">CHECKOUT</button>
+        `;
+      } else {
+        paymentDetailsSection = `
+          <h6>Thank you for your payment!</h6>
+        `;
+      }
+
       const domString = `
       <div id="customer-order-details" data-order-id="${obj.firebaseKey}" class="container text-center mt-5">
           <h3>Name: ${obj.name}</h3>
@@ -50,13 +85,62 @@ const viewOrderDetails = (obj) => {
               <tbody>
                 ${tableList}
               </tbody>
-            </table>
-            <h5>Total (before tax): $${totalBeforeTax.toFixed(2)}</h5>
-            <button class="btn checkout-btn" id="checkout-btn--${obj.firebaseKey}">CHECKOUT</button>
+          </table>
+
+          <div id="payment-details">
+            ${paymentDetailsSection}
+          </div>
       </div>
     `;
 
       renderToDOM('#order-details', domString);
+
+      // Variables to hold the tip and payment type changes
+      let tip = 0;
+      let paymentType = obj.type; // Default to current payment type in the order
+
+      // Update the displayed total dynamically based on tip input
+      document.getElementById('tip-input').addEventListener('input', (event) => {
+        tip = parseFloat(event.target.value) || 0;
+        const newTotal = totalBeforeTax + tip;
+        document.getElementById('order-total').textContent = newTotal.toFixed(2);
+      });
+
+      // Listen for changes in payment type
+      document.getElementById('payment-type').addEventListener('change', (event) => {
+        paymentType = event.target.value;
+      });
+
+      // Handle the checkout button click event
+      document.getElementById(`checkout-btn--${obj.firebaseKey}`).addEventListener('click', () => {
+        const newTotal = totalBeforeTax + tip;
+
+        // Create the updated order object
+        const updatedOrder = {
+          firebaseKey: obj.firebaseKey,
+          items: obj.items,
+          name: obj.name,
+          phone: obj.phone,
+          email: obj.email,
+          type: paymentType, // Updated payment type
+          total: newTotal, // Updated total with tip
+          tip, // Added tip
+          status: false, // Mark order as complete (or paid)
+        };
+
+        // Push the updated order to Firebase
+        updateOrder(updatedOrder)
+          .then(() => {
+            // Once the order is updated, change the payment details section to a thank you message
+            const thankYouMessage = `
+              <h6>Thank you for your payment!</h6>
+            `;
+            document.getElementById('payment-details').innerHTML = thankYouMessage;
+          })
+          .catch((error) => {
+            console.error('Error updating order:', error);
+          });
+      });
     })
     .catch((error) => {
       console.error('Error fetching items:', error);
