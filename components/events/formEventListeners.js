@@ -1,6 +1,5 @@
 import {
   createItem,
-  deleteItem,
   getItems,
   updateItem
 }
