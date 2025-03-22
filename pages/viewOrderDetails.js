@@ -22,16 +22,16 @@ const viewOrderDetails = (obj) => {
       const tableList = itemsInOrder.map((item) => `
         <tr>
           <td>${item.name}</td>
-          <td>$${item.price.toFixed(2)}</td>
+          <td>$${item.price}</td>
           <td>${item.quantity}</td>
-          <td>$${(item.price * item.quantity).toFixed(2)}</td>
-          <td><button class="btn btn-danger btn-sm" id="${item.firebaseKey}">Delete</button></td>
+          <td>$${(item.price * item.quantity)}</td>
+          <td><button class="btn btn-danger btn-sm" id="remove-item-from-order-btn--${item.firebaseKey}">Delete</button></td>
         </tr>
       `)
         .join('');
 
       const domString = `
-      <div id="customer-order-details" class="container text-center mt-5">
+      <div id="customer-order-details" data-order-id="${obj.firebaseKey}" class="container text-center mt-5">
           <h3>Name: ${obj.name}</h3>
           <p>Email: <a href="mailto:${obj.email}">${obj.email}</a></p>
           <p>Phone: ${obj.phone}</p>
