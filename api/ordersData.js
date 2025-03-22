@@ -1,17 +1,30 @@
 import client from '../utils/client';
+import isAuthorizedUser from '../utils/isAuthorizedUser';
 
 const endpoint = client.databaseURL;
 
-const getOrders = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/orders.json`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
-    .catch(reject);
+const getOrders = (uid) => new Promise((resolve, reject) => {
+  if (isAuthorizedUser(uid)) {
+    fetch(`${endpoint}/orders.json`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => resolve(Object.values(data)))
+      .catch(reject);
+  } else {
+    fetch(`${endpoint}/orders.json?orderBy="uid"&equalTo="${uid}"`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => resolve(Object.values(data)))
+      .catch(reject);
+  }
 });
 const deleteOrder = (firebaseKey) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/orders/${firebaseKey}.json`, {
