@@ -1,4 +1,4 @@
-const getTotalPriceFromOrder = () => {
+const getTotalPriceFromOrder = async () => {
 
 };
 

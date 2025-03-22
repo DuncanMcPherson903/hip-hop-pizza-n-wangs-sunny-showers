@@ -71,7 +71,7 @@ const updateItem = (payload) => new Promise((resolve, reject) => {
 });
 
 const getItemsFromOrder = (payload) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/orders/${payload.firebaseKey}/item_id.json`, {
+  fetch(`${endpoint}/orders/${payload.firebaseKey}/items.json`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ const getItemsFromOrder = (payload) => new Promise((resolve, reject) => {
       if (data) {
         resolve(data);
       } else {
-        resolve([]);
+        resolve({});
       }
     })
     .catch(reject);

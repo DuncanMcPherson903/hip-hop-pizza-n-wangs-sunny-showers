@@ -16,7 +16,7 @@ import orderForm from '../forms/addOrderForm';
 import { getRevenue, updateRevenue } from '../../api/revenueData';
 import getTotalPriceFromOrder from '../../utils/getTotalPriceFromOrder';
 
-const getFormData = (firebaseKey = null) => ({
+const getFormData = (userId, firebaseKey = null) => ({
   firebaseKey,
   name: document.querySelector('#order-name').value,
   phone: document.querySelector('#customer-phone').value,
@@ -24,9 +24,10 @@ const getFormData = (firebaseKey = null) => ({
   time: document.querySelector('#order-time').value,
   type: document.querySelector('#order-type').value,
   status: true,
+  uid: userId,
 });
 
-const formEvents = () => {
+const formEvents = (user) => {
   document.querySelector('#main-container').addEventListener('click', (e) => {
     if (e.target.id === 'create-orders') {
       orderForm();
@@ -52,17 +53,17 @@ const formEvents = () => {
     e.preventDefault();
 
     if (e.target.id.includes('submit-order')) {
-      const payload = getFormData();
+      const payload = getFormData(user.uid);
       createOrder(payload)
-        .then(() => getOrders().then(displayOrders))
+        .then(() => getOrders(user.uid).then(displayOrders))
         .catch((error) => console.error('Error creating order:', error));
     }
 
     if (e.target.id.includes('edit-order')) {
       const [, firebaseKey] = e.target.id.split('--');
-      const payload = getFormData(firebaseKey);
+      const payload = getFormData(user.uid, firebaseKey);
       updateOrder(payload)
-        .then(() => getOrders().then(displayOrders))
+        .then(() => getOrders(user.uid).then(displayOrders))
         .catch((error) => console.error('Error updating order:', error));
     }
 
@@ -80,7 +81,7 @@ const formEvents = () => {
           firebaseKey,
         };
         updateOrder(payload).then(() => {
-          getOrders().then(displayOrders);
+          getOrders(user.uid).then(displayOrders);
         });
       });
       // Update Revenue with order info
