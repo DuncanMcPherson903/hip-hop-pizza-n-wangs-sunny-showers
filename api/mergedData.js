@@ -1,5 +1,8 @@
 import { updateOrder, getSingleOrder } from './ordersData';
 import { getItemsFromOrder } from './itemsData';
+import client from '../utils/client';
+
+const endpoint = client.databaseURL;
 
 // function to add item to order
 const addItemsToOrder = async (orderId, itemId, quantity) => {
@@ -21,6 +24,38 @@ const addItemsToOrder = async (orderId, itemId, quantity) => {
   }
 };
 
+// Function to remove an item from the order
+const removeItemFromOrder = (orderFirebaseKey, itemFirebaseKey) => new Promise((resolve, reject) => {
+  // Fetch the specific order
+  fetch(`${endpoint}/orders/${orderFirebaseKey}.json`)
+    .then((response) => response.json())
+    .then((orderData) => {
+      if (!orderData || !orderData.items) {
+        throw new Error('Order or items not found.');
+      }
+
+      // Find the item to remove from the order
+      const updatedItems = orderData.items.filter((item) => item.item_id !== itemFirebaseKey);
+
+      // If no item was found, reject with an error message
+      if (updatedItems.length === orderData.items.length) {
+        throw new Error('Item not found in the order.');
+      }
+
+      // Update the order in Firebase, keeping the other order details intact
+      return fetch(`${endpoint}/orders/${orderFirebaseKey}.json`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ items: updatedItems }),
+      });
+    })
+    .then((response) => response.json())
+    .then((data) => resolve(data)) // Return the updated order data
+    .catch((error) => reject(error)); // Catch errors and reject the promise
+});
+
 // get order details
 const getOrderDetails = (firebaseKey) => new Promise((resolve, reject) => {
   getSingleOrder(firebaseKey).then((orderObject) => {
@@ -31,5 +66,6 @@ const getOrderDetails = (firebaseKey) => new Promise((resolve, reject) => {
 
 export {
   getOrderDetails,
+  removeItemFromOrder,
   addItemsToOrder
 };

@@ -8,13 +8,17 @@ import { viewOrderDetails, viewAddItems } from '../../pages/viewOrderDetails';
 import orderForm from '../forms/addOrderForm';
 import { addItemsToOrder } from '../../api/mergedData';
 import { signOut } from '../../utils/auth';
+import displayRevenue from '../../pages/revenue';
+import { getRevenue } from '../../api/revenueData';
+import { addItemsToOrder, removeItemFromOrder } from '../../api/mergedData';
+
 
 let currentOrderId = null;
 
-const domEvents = () => {
+const domEvents = (user) => {
   document.querySelector('#main-container').addEventListener('click', (e) => {
     if (e.target.id.includes('view-orders')) {
-      getOrders().then(displayOrders);
+      getOrders(user.uid).then(displayOrders);
     }
     document.body.addEventListener('click', (event) => {
       if (event.target.id === 'logout-button') {
@@ -63,9 +67,24 @@ const domEvents = () => {
       }
     }
 
+    // Remove Item from Order on order details page
+    if (e.target.id.includes('remove-item-from-order-btn')) {
+      const orderDetailsContainer = document.querySelector('#customer-order-details');
+      const orderFirebaseKey = orderDetailsContainer.getAttribute('data-order-id');
+      const [, itemFirebaseKey] = e.target.id.split('--');
+      removeItemFromOrder(orderFirebaseKey, itemFirebaseKey)
+        .then(() => getSingleOrder(orderFirebaseKey))
+        .then((updatedOrderObj) => {
+          viewOrderDetails(updatedOrderObj);
+          return getItems();
+        })
+        .then(viewAddItems)
+        .catch(console.error);
+    }
+
     // View Orders
     if (e.target.id.includes('view-orders')) {
-      getOrders().then(displayOrders);
+      getOrders(user.uid).then(displayOrders);
     }
 
     // Edit Item
@@ -96,14 +115,22 @@ const domEvents = () => {
     }
     // Delete Order
     if (e.target.id.includes('delete-order-btn')) {
-      const [, firebaseKey] = e.target.id.split('--');
-      deleteOrder(firebaseKey).then(getOrders).then(displayOrders);
+      // eslint-disable-next-line no-alert
+      if (window.confirm('Want to delete?')) {
+        const [, firebaseKey] = e.target.id.split('--');
+        deleteOrder(firebaseKey);
+        getOrders(user.uid).then(displayOrders);
+      }
     }
 
     // Edit Order
     if (e.target.id.includes('edit-order-btn')) {
       const [, firebaseKey] = e.target.id.split('--');
       getSingleOrder(firebaseKey).then((orderObj) => orderForm(orderObj));
+    }
+
+    if (e.target.id.includes('view-revenue')) {
+      getRevenue().then(displayRevenue);
     }
   });
 };

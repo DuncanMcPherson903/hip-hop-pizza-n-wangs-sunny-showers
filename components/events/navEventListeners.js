@@ -6,7 +6,7 @@ import renderToDOM from '../../utils/renderToDOM';
 import clearDom from '../../utils/clearDom';
 import { signOut } from '../../utils/auth';
 
-const navEvents = () => {
+const navEvents = (user) => {
   document.querySelector('#navigation').addEventListener('click', (e) => {
     // Get all Items from nav
     if (e.target.id.includes('all-items')) {
@@ -15,7 +15,7 @@ const navEvents = () => {
   });
   // Get all orders from nav
   document.querySelector('#all-orders').addEventListener('click', () => {
-    getOrders().then(displayOrders);
+    getOrders(user.uid).then(displayOrders);
   });
 
   document.querySelector('#google-auth').addEventListener('click', () => {
@@ -25,7 +25,7 @@ const navEvents = () => {
   document.querySelector('#search').addEventListener('input', (e) => {
     const searchQuery = e.target.value.trim().toLowerCase();
 
-    getOrders().then((orders) => {
+    getOrders(user.uid).then((orders) => {
       const filteredOrders = orders.filter((order) => order.name.toLowerCase().includes(searchQuery)
         || order.email.toLowerCase().includes(searchQuery)
         || (order.phone && String(order.phone).includes(searchQuery)));
