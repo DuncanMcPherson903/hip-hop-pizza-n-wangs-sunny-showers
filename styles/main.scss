@@ -104,6 +104,32 @@ body {
   } 
 }
 
+#payment-details {
+  #tip-section {
+    margin-bottom: 5px;
+    label {
+      font-size: 20px;
+    }
+    input {
+      border-radius: 5px;
+      line-height: 30px;
+    }
+  }
+  #payment-type-section {
+    margin-bottom: 5px;
+    label {
+      font-size: 20px;
+    }
+    input {
+      border-radius: 5px;
+      line-height: 30px;
+    }
+  }
+  p {
+    font-size: 20px;
+  }
+}
+
 .flex-container {
   display: flex;
   gap: 10px; 
@@ -177,4 +203,11 @@ body {
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(250, 193, 0, 0.8); 
+}
+
+
+@media only screen and (max-width: 992px) {
+  #search {
+    margin: 10px auto;
+  }
 }

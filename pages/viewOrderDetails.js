@@ -49,7 +49,7 @@ const viewOrderDetails = (obj) => {
       let paymentDetailsSection = '';
       if (obj.status === true) {
         paymentDetailsSection = `
-          <h5>Total: $${totalBeforeTax.toFixed(2)}</h5>
+          <h5>Total (before tip): $${totalBeforeTax.toFixed(2)}</h5>
 
           <!-- Tip Input -->
           <div id="tip-section">
