@@ -6,7 +6,21 @@ import { updateOrder } from '../api/ordersData';
 const viewOrderDetails = (obj) => {
   clearDom();
 
-  // Fetch all the items using item_id keys
+  // Check if there are no items in the order
+  if (!obj.items || obj.items.length === 0) {
+    const domString = `
+      <div id="customer-order-details" class="container text-center mt-5">
+        <h3>Name: ${obj.name}</h3>
+        <p>Email: <a href="mailto:${obj.email}">${obj.email}</a></p>
+        <p>Phone: ${obj.phone}</p>
+        <hr>
+        <h5 class="text-center">No items in this order yet.</h5>
+      </div>
+    `;
+    renderToDOM('#order-details', domString);
+    return; // Stop execution since there are no items
+  }
+  // Fetch all the items using item_id keys if there are items
   const itemPromises = obj.items.map((orderItem) => getSingleItem(orderItem.item_id).then((itemDetails) => ({
     ...itemDetails,
     quantity: orderItem.quantity,
